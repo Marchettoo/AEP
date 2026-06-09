@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Minha Loja – Busca Peças</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div class="header-inner">
+    <a href="/front-web/TelaPrincipal/index.html" class="logo-link" title="Busca Peças – Página Principal">
+      <div class="logo-img-wrap">
+        <img src="../TelaPrincipal/sem fundo site.png" onerror="this.style.display='none'">
+      </div>
+      <div class="logo-text-block">
+        <div class="logo-title">BUSCA <span>PEÇAS</span></div>
+        <div class="logo-sub">Delivery de Autopeças</div>
+      </div>
+    </a>
+    <nav>
+      <a href="/front-web/TelaPrincipal/index.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+        <span class="nav-text">Início</span>
+      </a>
+      <a href="../TelaCompras/compras.html" class="active">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <circle cx="9" cy="21" r="1"/><circle cx="20" cy="21" r="1"/>
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"/>
+        </svg>
+        <span class="nav-text">Compras</span>
+      </a>
+      <a href="/front-web/TelaLogin/login.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+          <circle cx="12" cy="7" r="4"/>
+        </svg>
+        <span class="nav-text">Login</span>
+      </a>
+    </nav>
+  </div>
+</header>
+
+<!-- BANNER DA LOJA -->
+<div class="store-banner">
+  <div class="store-banner-inner">
+    <div class="store-logo-wrap">
+      <div class="no-img">🏪</div>
+    </div>
+    <div class="store-info">
+      <div class="store-badge">✔ Loja Verificada</div>
+      <h1 class="store-name">Autopeças Central</h1>
+      <p class="store-desc">Especialistas em peças automotivas para todas as marcas. Delivery rápido em Maringá e região.</p>
+      <div class="store-stats">
+        <div class="stat-item">
+          <div class="stat-num" id="stat-total">0</div>
+          <div class="stat-label">Peças</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-promo">0</div>
+          <div class="stat-label">Em Promoção</div>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-item">
+          <div class="stat-num" id="stat-estoque">0</div>
+          <div class="stat-label">Em Estoque</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- PRODUTOS -->
+<div class="products-section">
+  <div class="section-header">
+    <h2 class="section-title-main">Peças <span>Cadastradas</span></h2>
+    <div class="filters">
+      <button class="filter-btn active" onclick="filtrar('Todos', this)">Todos</button>
+      <button class="filter-btn" onclick="filtrar('Suspensão', this)">Suspensão</button>
+      <button class="filter-btn" onclick="filtrar('Motor', this)">Motor</button>
+      <button class="filter-btn" onclick="filtrar('Freios', this)">Freios</button>
+      <button class="filter-btn" onclick="filtrar('Elétrica', this)">Elétrica</button>
+      <button class="filter-btn" onclick="filtrar('Outros', this)">Outros</button>
+    </div>
+  </div>
+
+  <div class="products-grid" id="products-grid">
+    <!-- Preenchido pelo JS -->
+  </div>
+
+  <!-- Botão de adicionar peça -->
+  <div class="add-btn-wrap">
+    <button class="btn-add-peca" onclick="abrirModal()">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+        <circle cx="12" cy="12" r="10"/>
+        <line x1="12" y1="8" x2="12" y2="16"/>
+        <line x1="8" y1="12" x2="16" y2="12"/>
+      </svg>
+      Cadastrar Nova Peça
+    </button>
+  </div>
+</div>
+
+<!-- OVERLAY + MODAL -->
+<div class="overlay" id="overlay" onclick="fecharModalOverlay(event)">
+  <div class="modal" id="modal">
+    <div class="modal-header">
+      <div class="modal-title">Cadastrar <span>Nova Peça</span></div>
+      <button class="modal-close" onclick="fecharModal()" title="Fechar">✕</button>
+    </div>
+    <div class="modal-body">
+
+      <!-- Identificação -->
+      <div class="form-section-label" style="margin-bottom:16px">🔧 Identificação da Peça</div>
+      <div class="form-grid one" style="margin-bottom:14px">
+        <div class="field">
+          <label>Nome da Peça <span class="req">*</span></label>
+          <input type="text" id="m-nome" placeholder="Ex: Amortecedor Dianteiro Esquerdo" />
+        </div>
+      </div>
+      <div class="form-grid" style="margin-bottom:14px">
+        <div class="field">
+          <label>Código OEM <span class="req">*</span></label>
+          <input type="text" id="m-oem" placeholder="Ex: 4852002271" oninput="this.value=this.value.replace(/[^A-Z0-9]/g,'').toUpperCase()" />
+        </div>
+        <div class="field">
+          <label>Família do Item <span class="req">*</span></label>
+          <select id="m-familia">
+            <option value="">Selecione a família…</option>
+            <option>Suspensão</option>
+            <option>Motor</option>
+            <option>Freios</option>
+            <option>Transmissão</option>
+            <option>Elétrica</option>
+            <option>Carroceria</option>
+            <option>Direção</option>
+            <option>Arrefecimento</option>
+            <option>Escapamento</option>
+            <option>Outros</option>
+          </select>
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:22px">
+        <label>Descrição</label>
+        <textarea id="m-descricao" placeholder="Descreva a peça, compatibilidade, observações técnicas…"></textarea>
+      </div>
+
+      <!-- Estoque -->
+      <div class="form-section-label" style="margin-bottom:16px">📦 Estoque & Fornecedor</div>
+      <div class="form-grid three" style="margin-bottom:22px">
+        <div class="field">
+          <label>Qtd. em Estoque <span class="req">*</span></label>
+          <input type="number" id="m-qtd" placeholder="0" min="0" />
+        </div>
+        <div class="field">
+          <label>Marca <span class="req">*</span></label>
+          <input type="text" id="m-marca" placeholder="Ex: Cofap, Bosch…" />
+        </div>
+        <div class="field">
+          <label>Fornecedor</label>
+          <input type="text" id="m-fornecedor" placeholder="Nome do fornecedor" />
+        </div>
+      </div>
+
+      <!-- Valores -->
+      <div class="form-section-label" style="margin-bottom:16px">💰 Valores</div>
+      <div class="price-group" style="margin-bottom:12px">
+        <div class="field price-prefix">
+          <label>Preço de Custo</label>
+          <span>R$</span>
+          <input type="number" id="m-custo" placeholder="0,00" min="0" step="0.01" />
+        </div>
+        <div class="field price-prefix">
+          <label>Preço de Venda <span class="req">*</span></label>
+          <span>R$</span>
+          <input type="number" id="m-venda" placeholder="0,00" min="0" step="0.01" />
+        </div>
+      </div>
+      <div class="field" style="margin-bottom:22px">
+        <label style="flex-direction:row;align-items:center;gap:8px;cursor:pointer">
+          <input type="checkbox" id="m-promo" style="width:auto" />
+          Marcar como <span class="promo-badge">🏷 PROMOÇÃO</span>
+        </label>
+      </div>
+
+      <!-- Foto -->
+      <div class="form-section-label" style="margin-bottom:16px">📸 Foto da Peça</div>
+      <div class="photo-drop" id="modal-drop" onclick="document.getElementById('m-foto').click()">
+        <input type="file" id="m-foto" accept="image/*" onchange="previewModalPhoto(this)" />
+        <div class="photo-drop-icon">🖼️</div>
+        <p><strong>Clique para selecionar</strong> ou arraste aqui</p>
+        <p style="font-size:.72rem;margin-top:3px;color:#aaa">PNG, JPG, WEBP até 10MB</p>
+        <img id="modal-preview-img" alt="Preview" />
+      </div>
+
+      <!-- Ações -->
+      <div class="modal-actions">
+        <button class="btn btn-outline" onclick="limparModal()">Limpar</button>
+        <button class="btn btn-primary" onclick="salvarPeca()">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+          Salvar Peça
+        </button>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast">
+  <span style="font-size:1.3rem">✅</span>
+  <span id="toast-msg">Peça cadastrada com sucesso!</span>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-brand">
+      <h2>BUSCA <span>PEÇAS</span></h2>
+      <p>A solução completa para delivery de autopeças. Encontre, cadastre e entregue peças automotivas com agilidade e confiança.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        <span style="background:rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;font-size:.8rem;color:rgba(255,255,255,.7)">📦 Delivery Rápido</span>
+        <span style="background:rgba(255,255,255,.1);border-radius:8px;padding:8px 14px;font-size:.8rem;color:rgba(255,255,255,.7)">🔒 Seguro</span>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h3>Navegação</h3>
+      <a href="#">🏠 Página Principal</a>
+      <a href="#">➕ Cadastrar Peça</a>
+      <a href="#">🛒 Compras</a>
+      <a href="#">👤 Login / Conta</a>
+    </div>
+    <div class="footer-col">
+      <h3>Suporte</h3>
+      <a href="#">📞 Central de Ajuda</a>
+      <a href="#">📋 Como Cadastrar</a>
+      <a href="#">📦 Rastrear Pedido</a>
+      <a href="#">⚖️ Política de Troca</a>
+    </div>
+  </div>
+
+  <div class="team-section">
+    <h3>👨‍💻 Equipe Desenvolvedora</h3>
+    <div class="team-members">
+      <div class="member">
+        <div class="member-avatar" style="background:linear-gradient(135deg,#2A5C84,#1a3f5c);color:#fff">GC</div>
+        <div class="member-name">Guilherme Castro</div>
+      </div>
+      <div class="member">
+        <div class="member-avatar" style="background:linear-gradient(135deg,#228B45,#155d2b);color:#fff">PM</div>
+        <div class="member-name">Pedro Magalhães</div>
+      </div>
+      <div class="member">
+        <div class="member-avatar" style="background:linear-gradient(135deg,#FD7E14,#c45e00);color:#fff">GM</div>
+        <div class="member-name">Gabriel Marchetto</div>
+      </div>
+      <div class="member">
+        <div class="member-avatar" style="background:linear-gradient(135deg,#28A745,#1a6b2e);color:#fff">DM</div>
+        <div class="member-name">Douglas Matsumoto</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="footer-copy">
+    <p>© 2025 <span class="verde">Busca Peças</span> – Delivery de Autopeças. Todos os direitos reservados.</p>
+    <p style="color:rgba(255,255,255,.3);font-size:.75rem;margin-top:4px">Maringá – PR, Brasil</p>
+  </div>
+</footer>
+
+<script src="script.js"></script>
+  
+</body>
+</html>
